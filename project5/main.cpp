@@ -17,11 +17,11 @@ int main()
     string s0 = "-";
     string s1 = to_string(N);
     string s2 = to_string(m0);
+    float lambd = 0;
 
+    file.open(s1+s0+s2+".txt");
 
-    file.open(s1+s0+s2);
-
-    main_func(N, m0, file);
+    main_func(N, lambd, m0, file);
 
 
 

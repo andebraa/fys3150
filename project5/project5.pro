@@ -9,3 +9,6 @@ SOURCES += \
 
 HEADERS += \
     heather.h
+
+DISTFILES += \
+    readfile.py

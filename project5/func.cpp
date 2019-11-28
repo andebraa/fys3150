@@ -11,7 +11,7 @@ using namespace std;
 using namespace arma;
 
 void vibe_check(int N, int m0, arma::vec &m);
-void main_func(int N, float lambd, int m0, ofstream& file){
+void main_func(int N, float lambd, int mc_cycles, int m0, ofstream& file){
     vec m = arma::vec(N, arma::fill::zeros); //vector of 500 different agents
     m.fill(m0);
 
@@ -26,7 +26,9 @@ void main_func(int N, float lambd, int m0, ofstream& file){
     uniform_int_distribution<int> uniform2_electric_boogaloo(0, N-2); //random agents (j)!
     uniform_real_distribution<double> double_uniform(0,1); //for finding the amount of mone
 
-    for(int k =0; k< 500; k++){
+
+
+    for(int mc = 0; mc < mc_cycles; mc ++){
         for(int l = 0; l<1E7; l++){
             int i = uniform(engine);
             int j = uniform2_electric_boogaloo(engine);
@@ -39,19 +41,21 @@ void main_func(int N, float lambd, int m0, ofstream& file){
             double delt_e = (1 - lambd)*(eps*m[j] - (1 - eps)*m[i]);
             m[i] += delt_e;
             m[j] -= delt_e;
-//            cout<<m(i)<<endl;
-//            cout << m(j) << endl;
+    //            cout<<m(i)<<endl;
+    //            cout << m(j) << endl;
 
 
         }//end for i<1E7
-    }//end for k < 500
-    for(int k = 0; k<N-1; k++){
-        file<<m(k) << "  ";
+
+        for(int k = 0; k<N; k++){
+            file<<m(k) << "  ";
+
+        }
+        file<<"\n";
 
     }
-    file<<"\n";
     vibe_check(N, m0, m);
-
+    file.close();
 } //end main func
 
 void vibe_check(int N, int m0, arma::vec &m){
@@ -59,12 +63,8 @@ void vibe_check(int N, int m0, arma::vec &m){
     double m_actual = 0;
 
     m_actual = arma::sum(m);
-    /*
-    for(int i=0; i < N; i++){
-        m_actual += m[i];
-    }
-    */
-    double tol = 1E-15;
+
+    double tol = 1E-8;
     if ((m_init - m_actual )> tol){
         cout<<"aint no good" << endl;
         cout<<m_init-m_actual<<endl;

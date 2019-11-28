@@ -27,7 +27,7 @@ void main_func(int N, float lambd, int m0, ofstream& file){
     uniform_real_distribution<double> double_uniform(0,1); //for finding the amount of mone
 
     for(int k =0; k< 500; k++){
-        for(int l = 0; l<1E5; l++){
+        for(int l = 0; l<1E7; l++){
             int i = uniform(engine);
             int j = uniform2_electric_boogaloo(engine);
 
@@ -58,9 +58,12 @@ void vibe_check(int N, int m0, arma::vec &m){
     double m_init = N*m0;
     double m_actual = 0;
 
+    m_actual = arma::sum(m);
+    /*
     for(int i=0; i < N; i++){
         m_actual += m[i];
     }
+    */
     double tol = 1E-15;
     if ((m_init - m_actual )> tol){
         cout<<"aint no good" << endl;

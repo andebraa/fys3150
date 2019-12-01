@@ -22,13 +22,17 @@ def tail_fit(filename):
     x1 = m_val[:-1]*a + b
     x = np.exp(b)*m_val[:-1]**a
 
-    plt.loglog(m_val[:-1], x)
+    plt.loglog(m_val[:-1], x, label='power law, $e^{b}x^a$')
+
+    plt.loglog((m_val[:-1]),(histo[0]), label="Logarithmic histogram values")
+    plt.xlabel('money', size = 14)
+
+    plt.title('distribution of wealth with $\\alpha = 0$ and  $10^7$ Monte Carlo cycles,'\
+    +'\n with a linear power law $e^{b}x^a$', size=14)
+    plt.ylabel('frequency', size=14)
 
 
-    plt.loglog(np.log(m_val[:-1]),np.log(histo[0]))
-    plt.xlabel('money')
-    plt.ylabel('frequency')
-    plt.show()
+
 
 
 def simple_readfile(filename):
@@ -58,17 +62,19 @@ def simple_readfile(filename):
 
 
 #oppgave B!
-#readfile('500-500_BIG2.txt')
+readfile('500-500_BIG2.txt')
 
 
 #oppgave C!
+"""
 tail_fit('500-500_BIG2.txt')
 tail_fit('500-500-0.250000_comp.txt')
 tail_fit('500-500-0.500000_comp.txt')
 tail_fit('500-500-0.900000.txt')
-plt.legend(['$\lambda = 0$','$\lambda = 0.25$', '$\lambda = 0.5$', '$\lambda = 0.9$'])
-
-
+plt.legend(['Power law, $\lambda = 0','$\lambda = 0$','Power law, \lambda = 0.25',\
+'$\lambda = 0.25$', 'Power law, \lambda = 0.5','$\lambda = 0.5$','Power law, \lambda = 0.9', '$\lambda = 0.9$'])
+plt.show()
+"""
 def hist_diff(filename):
 
     data = np.loadtxt(filename)

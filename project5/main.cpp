@@ -47,10 +47,6 @@ int main()
 
 
 
-//kjør koden for forskjellige lambda!
-
-
-
 
     //high performance computing
     //problemløsning med høynivå språk

@@ -11,7 +11,7 @@ using namespace std;
 using namespace arma;
 
 void vibe_check(int N, int m0, arma::vec &m);
-void main_func(int N, float lambd, int mc_cycles, int m0, ofstream& file){
+void main_func(int N, float lambd, int mc_cycles, int m0, ofstream& file, double alpha, double gamma){
     vec m = arma::vec(N, arma::fill::zeros); //vector of 500 different agents
     m.fill(m0);
 
@@ -26,6 +26,8 @@ void main_func(int N, float lambd, int mc_cycles, int m0, ofstream& file){
     uniform_int_distribution<int> uniform2_electric_boogaloo(0, N-2); //random agents (j)!
     uniform_real_distribution<double> double_uniform(0,1); //for finding the amount of mone
 
+    Mat<double> c(N,N, fill::zeros); //matrice for storing number of interactions between agents
+
 
 
     for(int mc = 0; mc < mc_cycles; mc ++){
@@ -37,14 +39,23 @@ void main_func(int N, float lambd, int mc_cycles, int m0, ofstream& file){
                 j++;
             }
 
-            double eps = double_uniform(engine);
-            double delt_e = (1 - lambd)*(eps*m[j] - (1 - eps)*m[i]);
-            m[i] += delt_e;
-            m[j] -= delt_e;
-    //            cout<<m(i)<<endl;
-    //            cout << m(j) << endl;
+            double r = double_uniform(engine);
+            double p = pow(fabs(m[i] -m[j]) , -alpha);//*pow(c(min(i,j), max(i,j))+1 , gamma);
 
 
+            if (r < p){
+                c(min(i,j), max(i,j)) += 1;
+
+                double eps = double_uniform(engine);
+                double delt_e = (1 - lambd)*(eps*m[j] - (1 - eps)*m[i]);
+
+
+                m[i] += delt_e;
+                m[j] -= delt_e;
+        //            cout<<m(i)<<endl;
+        //            cout << m(j) << endl;
+
+            }//end if r<p
         }//end for i<1E7
 
         for(int k = 0; k<N; k++){

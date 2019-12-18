@@ -1,7 +1,7 @@
 #include <iostream>
 #include <armadillo>
 //#include <mpi.h>
-#include <mpi/mpi.h>
+//#include <mpi/mpi.h>
 #define ZERO  1.0E-10
 #include "heather.h"
 #include <fstream>
@@ -40,8 +40,14 @@ void main_func(int N, float lambd, int mc_cycles, int m0, ofstream& file, double
             }
 
             double r = double_uniform(engine);
-            double p = pow(fabs(m[i] -m[j]) , -alpha);//*pow(c(min(i,j), max(i,j))+1 , gamma);
+            double p;
+            if (m[i] == m[j]){
+                p = 2;
+            }
+            else{
 
+                p    = pow(fabs(m[i] -m[j]) , -alpha)*pow(c(min(i,j), max(i,j))+1 , gamma);
+            }
 
             if (r < p){
                 c(min(i,j), max(i,j)) += 1;

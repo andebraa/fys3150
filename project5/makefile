@@ -1,4 +1,4 @@
-CPPFLAGS = -O2 -o 
+CPPFLAGS= -O2 -o 
 
 hellomake:
-	mpic++ $(CPPFLAGS) halvard main.cpp func.cpp
+	mpic++ $(CPPFLAGS)  halvard main.cpp func.cpp
